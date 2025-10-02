@@ -41,7 +41,7 @@ A modern, feature-rich Discord bot template built with Discord.js v14, designed 
 - **`eval <code>`:** Evaluate JavaScript code.
   ## Project Structure
 
-
+```
 src/
 ├── commands/          # Command files
 │   ├── config/       # Configuration commands
@@ -69,6 +69,7 @@ src/
 │   └── Logger.js     # Logger utility
 ├── config.js         # Configuration loader
 └── index.js          # Entry point
+```
 > **Description of Directories:**
 >
 > -   `commands/`: Contains all the command files for the bot. Each subdirectory represents a category of commands.
@@ -103,3 +104,4 @@ For support, join our Discord server or open an issue on GitHub.
 
 > -   [Discord Support Server](your_discord_invite_link)
 > -   [GitHub Issues](your_github_issues_link)
+
