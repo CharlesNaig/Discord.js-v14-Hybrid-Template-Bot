@@ -1,0 +1,36 @@
+{
+  "name": "discord-bot",
+  "version": "3.0.0",
+  "description": "Modern Discord bot built with discord.js v14",
+  "main": "sharder.js",
+  "type": "module",
+  "scripts": {
+    "start": "node sharder.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon sharder.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "discord-bot",
+    "discord.js",
+    "discord.js-v14"
+  ],
+  "author": "",
+  "license": "GPL",
+  "bugs": "",
+  "homepage": "",
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.10.0",
+    "signale": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
