@@ -26,7 +26,7 @@
   "homepage": "",
   "dependencies": {
     "discord.js": "^14.22.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^17.0.0",
     "mongoose": "^8.10.0",
     "signale": "^1.4.0"
   },
