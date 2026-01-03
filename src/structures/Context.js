@@ -54,9 +54,9 @@ export default class Context {
     }
     async sendFollowUp(content) {
         if (this.isInteraction) {
-            await this.followUp(content);
+            await this.interaction.followUp(content);
         } else {
-            this.channel.send(content);
+            await this.channel.send(content);
         }
     }
 }
