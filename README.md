@@ -7,7 +7,7 @@
 [![Discord.js](https://img.shields.io/badge/discord.js-v14.25.1-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.js.org)
 [![Node.js](https://img.shields.io/badge/node.js-v18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![MongoDB](https://img.shields.io/badge/MongoDB-v9-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
-[![License](https://img.shields.io/badge/license-GPL-blue?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue?style=for-the-badge)](LICENSE)
 
 [Features](#-features) · [Setup](#-quick-start) · [Commands](#-commands) · [Structure](#-project-structure) · [Contributing](#-contributing)
 
@@ -309,7 +309,7 @@ Please follow the existing code patterns — hybrid command structure, 3-format 
 
 ## 📄 License
 
-This project is licensed under the [GPL License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 ---
 
