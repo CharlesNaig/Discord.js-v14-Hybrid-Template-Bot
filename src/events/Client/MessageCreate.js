@@ -1,11 +1,16 @@
 import Event from "../../structures/Event.js";
 import Context from "../../structures/Context.js";
 import { Message, ChannelType, PermissionFlagsBits, Collection } from "discord.js";
+import GuildSettings from "../../schemas/Guild.js";
 import PrefixSchema from "../../schemas/prefix.js";
 
 async function getPrefix(guildId, client) {
-    const data = await PrefixSchema.findOne({ _id: guildId });
-    return data?.prefix || client.config.prefix;
+    // Try unified Guild schema first
+    const guildData = await client.getGuildSettings(guildId);
+    if (guildData?.prefix) return guildData.prefix;
+    // Fallback to legacy prefix schema for backwards compatibility
+    const legacyData = await PrefixSchema.findOne({ _id: guildId });
+    return legacyData?.prefix || client.config.prefix;
 }
 
 export default class MessageCreate extends Event {
@@ -43,28 +48,32 @@ export default class MessageCreate extends Event {
         ctx.setArgs(args);
 
         if (!command) return;
+
+        // Check if command is disabled
+        if (command.disabled) return;
+
         this.client.logger.cmd('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
         if (!message.inGuild() || !message.channel.permissionsFor(message.guild.members.me).has(PermissionFlagsBits.ViewChannel)) return;
 
         if (!message.guild.members.me.permissions.has(PermissionFlagsBits.SendMessages)) {
-            return await message.author.send({ content: `I don't have **\`SEND_MESSAGES\`** permission in \`${message.guild.name}\`\nchannel: <#${message.channelId}>` }).catch(() => { });
+            return await message.author.send({ content: `\`❌\` I don't have **\`SEND_MESSAGES\`** permission in \`${message.guild.name}\`\nchannel: <#${message.channelId}>` }).catch(() => { });
         }
 
         if (!message.guild.members.me.permissions.has(PermissionFlagsBits.EmbedLinks)) {
-            return await message.channel.send({ content: 'I don\'t have **`EMBED_LINKS`** permission.' }).catch(() => { });
+            return await message.channel.send({ content: '`❌` I don\'t have **`EMBED_LINKS`** permission.' }).catch(() => { });
         }
 
         if (command.permissions) {
             if (command.permissions.client) {
                 if (!message.guild.members.me.permissions.has(command.permissions.client)) {
-                    return await message.reply({ content: 'I don\'t have enough permissions to execute this command.' });
+                    return await message.reply({ content: '`❌` I don\'t have enough permissions to execute this command.' });
                 }
             }
 
             if (command.permissions.user) {
                 if (!message.member.permissions.has(command.permissions.user)) {
-                    return await message.reply({ content: 'You don\'t have enough permissions to use this command.' });
+                    return await message.reply({ content: '`❌` You don\'t have enough permissions to use this command.' });
                 }
             }
             
@@ -78,7 +87,7 @@ export default class MessageCreate extends Event {
 
         if (command.args) {
             if (!args.length) {
-                return await message.reply({ content: `Please provide the required arguments.\nUsage: \`${prefix}${command.name} ${command.description.usage}\`` });
+                return await message.reply({ content: `\`❌\` Please provide the required arguments.\nUsage: \`${prefix}${command.name} ${command.description.usage}\`` });
             }
         }
         
@@ -97,7 +106,7 @@ export default class MessageCreate extends Event {
             const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
             const timeLeft = (expirationTime - now) / 1000;
             if (now < expirationTime && timeLeft > 0.9) {
-                return message.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.` });
+                return message.reply({ content: `\`⏳\` Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.` });
             }
             timestamps.set(message.author.id, now);
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
@@ -106,8 +115,9 @@ export default class MessageCreate extends Event {
         try {
             return await command.run(ctx, ctx.args);
         } catch (error) {
-            await message.channel.send({ content: 'An unexpected error occurred, the developers have been notified!' }).catch(() => { });
-            console.error(error);
+            this.client.logger.error(`[MessageCreate] Error in ${commandName}: ${error.message}`);
+            this.client.logger.error(error.stack);
+            await message.channel.send({ content: '`❌` An unexpected error occurred, the developers have been notified!' }).catch(() => { });
         }
     }
 }

@@ -13,12 +13,18 @@ export default class InteractionCreate extends Event {
      * @param {CommandInteraction} interaction
      */
     async run(interaction) {
+        // ─── Slash Commands ───
         if (interaction.type === InteractionType.ApplicationCommand) {
             const { commandName } = interaction;
-            if (!commandName) return await interaction.reply({ content: 'Unknown interaction!' }).catch(() => { });
+            if (!commandName) return await interaction.reply({ content: '`❌` Unknown interaction!' }).catch(() => { });
             
             const cmd = this.client.commands.get(interaction.commandName);
             if (!cmd || !cmd.slashCommand) return;
+
+            // Check if command is disabled
+            if (cmd.disabled) {
+                return await interaction.reply({ content: '`❌` This command is currently disabled.', ephemeral: true }).catch(() => {});
+            }
             
             const command = cmd.name.toLowerCase();
             const ctx = new Context(interaction, interaction.options.data);
@@ -26,28 +32,28 @@ export default class InteractionCreate extends Event {
             this.client.logger.cmd('%s used by %s from %s', command, ctx.author.id, ctx.guild?.id || 'DM');
             
             if (!interaction.inGuild() || !interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionFlagsBits.ViewChannel)) {
-                return await interaction.reply({ content: 'I cannot see this channel!', ephemeral: true }).catch(() => { });
+                return await interaction.reply({ content: '`❌` I cannot see this channel!', ephemeral: true }).catch(() => { });
             }
 
             if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.SendMessages)) {
-                return await interaction.author.send({ content: `I don't have **\`SEND_MESSAGES\`** permission in \`${interaction.guild.name}\`\nchannel: <#${interaction.channelId}>` }).catch(() => { });
+                return await interaction.author?.send({ content: `\`❌\` I don't have **\`SEND_MESSAGES\`** permission in \`${interaction.guild.name}\`\nchannel: <#${interaction.channelId}>` }).catch(() => { });
             }
 
             if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.EmbedLinks)) {
-                return await interaction.reply({ content: 'I don\'t have **`EMBED_LINKS`** permission.', ephemeral: true }).catch(() => { });
+                return await interaction.reply({ content: '`❌` I don\'t have **`EMBED_LINKS`** permission.', ephemeral: true }).catch(() => { });
             }
 
             // Check permissions
             if (cmd.permissions) {
                 if (cmd.permissions.client) {
                     if (!interaction.guild.members.me.permissions.has(cmd.permissions.client)) {
-                        return await interaction.reply({ content: 'I don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
+                        return await interaction.reply({ content: '`❌` I don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
                     }
                 }
 
                 if (cmd.permissions.user) {
                     if (!interaction.member.permissions.has(cmd.permissions.user)) {
-                        return await interaction.reply({ content: 'You don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
+                        return await interaction.reply({ content: '`❌` You don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
                     }
                 }
                 
@@ -55,7 +61,7 @@ export default class InteractionCreate extends Event {
                     if (this.client.config.ownerID) {
                         const findDev = this.client.config.ownerID.find((x) => x === interaction.user.id);
                         if (!findDev) {
-                            return await interaction.reply({ content: 'This command is only for developers.', ephemeral: true }).catch(() => { });
+                            return await interaction.reply({ content: '`❌` This command is only for developers.', ephemeral: true }).catch(() => { });
                         }
                     }
                 }
@@ -78,7 +84,7 @@ export default class InteractionCreate extends Event {
                 const timeLeft = (expirationTime - now) / 1000;
                 if (now < expirationTime && timeLeft > 0.9) {
                     return interaction.reply({ 
-                        content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`,
+                        content: `\`⏳\` Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`,
                         ephemeral: true
                     });
                 }
@@ -89,11 +95,40 @@ export default class InteractionCreate extends Event {
             try {
                 return await cmd.run(ctx, ctx.args);
             } catch (error) {
-                console.error(error);
+                this.client.logger.error(`[InteractionCreate] Error in ${command}: ${error.message}`);
+                this.client.logger.error(error.stack);
                 await interaction.reply({
                     ephemeral: true,
-                    content: 'An unexpected error occurred, the developers have been notified.',
+                    content: '`❌` An unexpected error occurred, the developers have been notified.',
                 }).catch(() => { });
+            }
+        }
+
+        // ─── Button Interactions ───
+        if (interaction.isButton()) {
+            // Handled by collectors in commands (pagination, etc.)
+            // Custom component handlers can be added here
+            return;
+        }
+
+        // ─── Select Menu Interactions ───
+        if (interaction.isAnySelectMenu()) {
+            return;
+        }
+
+        // ─── Modal Submissions ───
+        if (interaction.type === InteractionType.ModalSubmit) {
+            return;
+        }
+
+        // ─── Autocomplete ───
+        if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
+            const cmd = this.client.commands.get(interaction.commandName);
+            if (!cmd || !cmd.autocomplete) return;
+            try {
+                await cmd.autocomplete(interaction);
+            } catch (error) {
+                this.client.logger.error(`[Autocomplete] Error in ${interaction.commandName}: ${error.message}`);
             }
         }
     }

@@ -9,6 +9,9 @@
  * @property {?boolean} slashCommand To specify if it's a slash command
  * @property {?import('discord.js').ApplicationCommandOption} options Slash Command options
  * @property {?string} category The category the command belongs to
+ * @property {?string} subcategory Sub-category for organization
+ * @property {?boolean} guildOnly Whether this command only works in guilds
+ * @property {?boolean} disabled Whether this command is currently disabled
  */
 export default class Command {
   /**
@@ -45,5 +48,8 @@ export default class Command {
     this.slashCommand = options.slashCommand || false;
     this.options = options.options || [];
     this.category = options.category || "general";
+    this.subcategory = options.subcategory || null;
+    this.guildOnly = options.guildOnly !== undefined ? options.guildOnly : true;
+    this.disabled = options.disabled || false;
   }
 }

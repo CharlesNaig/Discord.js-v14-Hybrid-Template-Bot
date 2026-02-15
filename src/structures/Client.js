@@ -1,9 +1,10 @@
 import { Client, Routes, REST, PermissionsBitField, ApplicationCommandType, GatewayIntentBits, Partials, Collection, EmbedBuilder } from 'discord.js';
-import { readdirSync } from 'fs';
+import { readdirSync, existsSync } from 'fs';
 import pkg from 'mongoose';
 const { connect, set } = pkg;
 import { config } from '../config.js';
 import Logger from './Logger.js';
+import GuildSettings from '../schemas/Guild.js';
 
 export class BotClient extends Client {
     constructor() {
@@ -18,8 +19,26 @@ export class BotClient extends Client {
                 GatewayIntentBits.GuildMessages,
                 GatewayIntentBits.GuildMessageReactions,
                 GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildModeration,
+                GatewayIntentBits.GuildEmojisAndStickers,
+                GatewayIntentBits.GuildScheduledEvents,
+                GatewayIntentBits.GuildMessageTyping,
+                GatewayIntentBits.AutoModerationConfiguration,
+                GatewayIntentBits.AutoModerationExecution,
+                GatewayIntentBits.DirectMessages,
+                GatewayIntentBits.DirectMessageReactions,
             ],
-            partials: [Partials.Channel, Partials.GuildMember, Partials.Message, Partials.User, Partials.Reaction],
+            partials: [
+                Partials.Channel,
+                Partials.GuildMember,
+                Partials.Message,
+                Partials.User,
+                Partials.Reaction,
+                Partials.GuildScheduledEvent,
+                Partials.ThreadMember,
+            ],
         });
         this.config = config;
         if (!this.token) this.token = this.config.token;
@@ -28,6 +47,8 @@ export class BotClient extends Client {
         this.cooldowns = new Collection();
         this.aliases = new Collection();
         this.events = new Collection();
+        this.guildSettings = new Collection();
+        this.snipes = new Collection();
         this.logger = new Logger({
             displayTimestamp: true,
             displayDate: true,
@@ -37,14 +58,27 @@ export class BotClient extends Client {
     embed() {
         return new EmbedBuilder();
     }
+
+    /**
+     * Get guild settings from cache or DB
+     * @param {string} guildId
+     * @returns {Promise<Object|null>}
+     */
+    async getGuildSettings(guildId) {
+        if (this.guildSettings.has(guildId)) return this.guildSettings.get(guildId);
+        const data = await GuildSettings.findOne({ _id: guildId });
+        if (data) this.guildSettings.set(guildId, data);
+        return data;
+    }
     
     async loadEvents() {
         let i = 0;
-        const eventFiles = readdirSync('./src/events');
-        for (const file of eventFiles) {
-            const events = readdirSync(`./src/events/${file}`).filter(c => c.split('.').pop() === 'js');
+        const eventDirs = readdirSync('./src/events');
+        for (const dir of eventDirs) {
+            const dirPath = `./src/events/${dir}`;
+            const events = readdirSync(dirPath).filter(c => c.endsWith('.js'));
             for (const event of events) {
-                const Event = (await import(`../events/${file}/${event}`)).default;
+                const Event = (await import(`../events/${dir}/${event}`)).default;
                 const eventClass = new Event(this, Event);
                 this.events.set(eventClass.name, eventClass);
                 const eventName = eventClass.name;

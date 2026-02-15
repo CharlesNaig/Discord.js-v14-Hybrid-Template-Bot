@@ -1,5 +1,6 @@
 import Command from '../../structures/Command.js';
 import { inspect } from 'util';
+import { StatusEmojis } from '../../utils/emoji.js';
 
 export default class Eval extends Command {
     constructor(client) {
@@ -25,7 +26,7 @@ export default class Eval extends Command {
     async run(ctx, args) {
         const code = args.join(' ');
         if (!code) {
-            return ctx.sendMessage({ content: 'Please provide code to evaluate!' });
+            return ctx.sendMessage({ content: `${StatusEmojis.error} Please provide code to evaluate!` });
         }
         try {
             let evaled = await eval(code);
@@ -48,20 +49,24 @@ export default class Eval extends Command {
             
             const embed = this.client.embed()
                 .setColor(this.client.color.success)
-                .setTitle('✅ Eval Success')
+                .setTitle(`${StatusEmojis.success} Eval Success`)
                 .setDescription(`\`\`\`js\n${evaled}\n\`\`\``)
                 .setTimestamp();
-                
-            return ctx.sendMessage({ embeds: [embed] });
+
+            const message = `${StatusEmojis.success} **Eval Success**\n\`\`\`js\n${evaled}\n\`\`\``;
+
+            return ctx.sendTypedMessage({ embed, message });
         } catch (e) {
-            console.error(e);
+            this.client.logger.error(`[Eval] ${e.message}`);
             const embed = this.client.embed()
                 .setColor(this.client.color.error)
-                .setTitle('❌ Eval Error')
+                .setTitle(`${StatusEmojis.error} Eval Error`)
                 .setDescription(`\`\`\`js\n${e.message}\n\`\`\``)
                 .setTimestamp();
-                
-            return ctx.sendMessage({ embeds: [embed] });
+
+            const message = `${StatusEmojis.error} **Eval Error**\n\`\`\`js\n${e.message}\n\`\`\``;
+
+            return ctx.sendTypedMessage({ embed, message });
         }
     }
 }

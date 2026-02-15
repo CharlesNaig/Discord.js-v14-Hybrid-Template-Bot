@@ -1,5 +1,9 @@
 import Command from "../../structures/Command.js"; 
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, TextDisplayBuilder, SeparatorBuilder, SeparatorSpacingSize } from "discord.js";
+import { version } from 'discord.js';
+import { getEmoji, StatusEmojis } from "../../utils/emoji.js";
+import { resolveColor } from "../../utils/resolveColor.js";
+import { formatUptime } from "../../utils/formatters.js";
 
 export default class About extends Command {
     constructor(client) {
@@ -23,24 +27,70 @@ export default class About extends Command {
     }
 
     async run(ctx, args) {
+        const uptime = formatUptime(this.client.uptime);
+        const servers = this.client.guilds.cache.size;
+        const users = this.client.users.cache.size;
+        const commands = this.client.commands.size;
+        const ping = Math.round(this.client.ws.ping);
+
+        // ─── Embed Format ───
         const embed = this.client.embed()
-            .setAuthor({ name: 'Bot Information', iconURL: this.client.user.displayAvatarURL()})
+            .setAuthor({ name: 'Bot Information', iconURL: this.client.user.displayAvatarURL() })
             .setThumbnail(this.client.user.displayAvatarURL())
             .setColor(this.client.color.default)
             .addFields([
-                { name: '👤 Bot Name', value: this.client.user.tag, inline: true },
-                { name: '📊 Servers', value: `${this.client.guilds.cache.size}`, inline: true },
-                { name: '👥 Users', value: `${this.client.users.cache.size}`, inline: true },
-                { name: '📝 Commands', value: `${this.client.commands.size}`, inline: true },
-                { name: '🏓 Ping', value: `${Math.round(this.client.ws.ping)}ms`, inline: true },
-                { name: '⏱️ Uptime', value: `<t:${Math.floor((Date.now() - this.client.uptime) / 1000)}:R>`, inline: true },
-                { name: '💻 Node.js', value: process.version, inline: true },
-                { name: '📚 Discord.js', value: 'v14.22.1', inline: true },
-                { name: '🔧 Prefix', value: this.client.config.prefix, inline: true },
+                { name: `${getEmoji('bot', '🤖')} Bot Name`, value: this.client.user.tag, inline: true },
+                { name: `${getEmoji('server', '📊')} Servers`, value: `${servers}`, inline: true },
+                { name: `${getEmoji('members', '👥')} Users`, value: `${users}`, inline: true },
+                { name: `${getEmoji('info', '📝')} Commands`, value: `${commands}`, inline: true },
+                { name: `${getEmoji('clock', '🏓')} Ping`, value: `${ping}ms`, inline: true },
+                { name: `${getEmoji('clock', '⏱️')} Uptime`, value: `<t:${Math.floor((Date.now() - this.client.uptime) / 1000)}:R>`, inline: true },
+                { name: `${getEmoji('settings', '💻')} Node.js`, value: process.version, inline: true },
+                { name: `${getEmoji('info', '📚')} Discord.js`, value: `v${version}`, inline: true },
+                { name: `${getEmoji('settings', '🔧')} Prefix`, value: this.client.config.prefix, inline: true },
             ])
             .setFooter({ text: `Requested by ${ctx.author.tag}`, iconURL: ctx.author.displayAvatarURL({ dynamic: true }) })
             .setTimestamp();
-            
-        return await ctx.sendMessage({ embeds: [embed] });
+
+        // ─── Components V2 Format ───
+        const container = new ContainerBuilder()
+            .setAccentColor(resolveColor(this.client.color.default))
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(`# ${getEmoji('bot', '🤖')} Bot Information`),
+            )
+            .addSeparatorComponents(
+                new SeparatorBuilder().setDivider(true).setSpacing(SeparatorSpacingSize.Small)
+            )
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(`${getEmoji('bot', '🤖')} **Bot Name:** ${this.client.user.tag}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('server', '📊')} **Servers:** ${servers}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('members', '👥')} **Users:** ${users}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('info', '📝')} **Commands:** ${commands}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('clock', '🏓')} **Ping:** ${ping}ms`),
+                new TextDisplayBuilder().setContent(`${getEmoji('clock', '⏱️')} **Uptime:** ${uptime}`),
+                new TextDisplayBuilder().setContent(`\u200b`),
+                new TextDisplayBuilder().setContent(`${getEmoji('settings', '💻')} **Node.js:** ${process.version}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('info', '📚')} **Discord.js:** v${version}`),
+                new TextDisplayBuilder().setContent(`${getEmoji('settings', '🔧')} **Prefix:** ${this.client.config.prefix}`),
+                new TextDisplayBuilder().setContent(`\u200b`),
+                new TextDisplayBuilder().setContent(`-# Requested by ${ctx.author.tag}`),
+            );
+
+        // ─── Message Format ───
+        const message = [
+            `${getEmoji('bot', '🤖')} **Bot Information**`,
+            ``,
+            `${getEmoji('bot', '🤖')} **Bot Name:** ${this.client.user.tag}`,
+            `${getEmoji('server', '📊')} **Servers:** ${servers}`,
+            `${getEmoji('members', '👥')} **Users:** ${users}`,
+            `${getEmoji('info', '📝')} **Commands:** ${commands}`,
+            `${getEmoji('clock', '🏓')} **Ping:** ${ping}ms`,
+            `${getEmoji('clock', '⏱️')} **Uptime:** ${uptime}`,
+            `${getEmoji('settings', '💻')} **Node.js:** ${process.version}`,
+            `${getEmoji('info', '📚')} **Discord.js:** v${version}`,
+            `${getEmoji('settings', '🔧')} **Prefix:** ${this.client.config.prefix}`,
+        ].join('\n');
+
+        return ctx.sendTypedMessage({ embed, componentsv2: [container], message });
     }
 }

@@ -21,9 +21,9 @@ export default class Event {
         }
     }
 
-    reload() {
-        const path = `../events/${this.name}.js`;
-        delete require.cache[path];
-        require(`../events/${this.name}.js`);
+    async reload() {
+        const timestamp = Date.now();
+        const module = await import(`../events/${this.name}.js?update=${timestamp}`);
+        return module.default;
     }
 }

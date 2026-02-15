@@ -1,4 +1,5 @@
 import Command from '../../structures/Command.js';
+import { StatusEmojis } from '../../utils/emoji.js';
 
 export default class Reload extends Command {
     constructor(client) {
@@ -28,7 +29,12 @@ export default class Reload extends Command {
                        this.client.commands.get(this.client.aliases.get(commandName));
         
         if (!command) {
-            return ctx.sendMessage({ content: `❌ Command \`${commandName}\` not found.` });
+            return ctx.sendTypedMessage({
+                embed: this.client.embed()
+                    .setColor(this.client.color.error)
+                    .setDescription(`${StatusEmojis.error} Command \`${commandName}\` not found.`),
+                message: `${StatusEmojis.error} Command \`${commandName}\` not found.`,
+            });
         }
         
         try {
@@ -50,21 +56,26 @@ export default class Reload extends Command {
                     this.client.aliases.set(alias, newCommand.name);
                 });
             }
-            
-            const embed = this.client.embed()
-                .setColor(this.client.color.success)
-                .setDescription(`✅ Successfully reloaded command: \`${newCommand.name}\``)
-                .setTimestamp();
-                
-            return ctx.sendMessage({ embeds: [embed] });
+
+            this.client.logger.success(`Reloaded command: ${newCommand.name}`);
+
+            return ctx.sendTypedMessage({
+                embed: this.client.embed()
+                    .setColor(this.client.color.success)
+                    .setDescription(`${StatusEmojis.success} Successfully reloaded command: \`${newCommand.name}\``)
+                    .setTimestamp(),
+                message: `${StatusEmojis.success} Successfully reloaded command: \`${newCommand.name}\``,
+            });
         } catch (error) {
-            console.error(error);
-            const embed = this.client.embed()
-                .setColor(this.client.color.error)
-                .setDescription(`❌ Error reloading command: \`${commandName}\`\n\`\`\`js\n${error.message}\n\`\`\``)
-                .setTimestamp();
-                
-            return ctx.sendMessage({ embeds: [embed] });
+            this.client.logger.error(`[Reload] ${error.message}`);
+
+            return ctx.sendTypedMessage({
+                embed: this.client.embed()
+                    .setColor(this.client.color.error)
+                    .setDescription(`${StatusEmojis.error} Error reloading command: \`${commandName}\`\n\`\`\`js\n${error.message}\n\`\`\``)
+                    .setTimestamp(),
+                message: `${StatusEmojis.error} Error reloading \`${commandName}\`\n\`\`\`js\n${error.message}\n\`\`\``,
+            });
         }
     }
 }

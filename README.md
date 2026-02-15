@@ -1,107 +1,162 @@
 # Discord.js v14 Hybrid Template Bot
 
-A modern, feature-rich Discord bot template built with Discord.js v14, designed to provide a solid foundation for creating powerful and engaging Discord applications. This template leverages a hybrid command system, combining the flexibility of prefix commands with the efficiency of slash commands, and integrates MongoDB for persistent data storage.
+A production-ready Discord bot template built with **Discord.js v14.25.1**, featuring a hybrid command system (prefix + slash), configurable message output formats (embed / Components V2 / plain text), comprehensive event handling, and MongoDB integration.
 
 ## Features
 
-- **Discord.js v14.22.1:** Utilizes the latest version of the Discord.js library, ensuring access to the newest features and improvements.
-- **Hybrid Command System:** Supports both prefix-based and slash commands, offering flexibility for users and developers.
-- **MongoDB Integration:** Seamlessly integrates with MongoDB for storing and managing persistent data such as custom prefixes, user settings, and more.
-- **Event-Driven Architecture:** Employs an event-driven architecture for efficient and scalable bot behavior.
-- **Modular Command Structure:** Organizes commands into separate categories for easy maintenance and scalability.
-- **Developer Commands:** Includes powerful developer commands for bot management, debugging, and evaluation.
-- **Informative Commands:** Provides users with essential information about the bot, its status, and available commands.
-- **Configuration Commands:** Allows administrators to customize bot settings, such as the command prefix.
-- **Comprehensive Error Handling:** Implements robust error handling to ensure bot stability and provide informative error messages.
-- **Ready-to-use Template:** Designed as a starting point, allowing developers to quickly build and customize their Discord bots.
-- **Slash Command Autocompletion:** Enhances user experience with autocompletion for slash commands, guiding users to available options.
-- **Context Menus:** Adds functionality with context menu commands, enabling specific actions on messages or users through right-click menus.
+- **Discord.js v14.25.1** — Pinned for stability, with native V2 component builders
+- **Hybrid Command System** — Single command file handles both `!ping` prefix and `/ping` slash commands
+- **3 Message Output Formats** — Per-guild configurable: traditional embeds, Components V2, or plain text
+- **22+ Event Handlers** — Guild, member, voice, moderation, message, automod, channel, and role events
+- **30+ Commands** — Across 5 categories: info, config, moderation, utility, and dev
+- **MongoDB Integration** — Unified guild schema for prefix, message type, logging, welcome/farewell, autorole
+- **Custom Emoji System** — Config-driven custom emojis with unicode fallbacks
+- **Warning System** — Database-backed member warnings with moderator tracking
+- **Snipe System** — Recovers last deleted message per channel
+- **Pagination Utility** — Button-based page navigation for lists
+- **Message Builder** — Utility to generate all 3 formats from a single builder chain
+- **Anti-Crash Handlers** — Process-level error catching with logger integration
+- **Rotating Presence** — Dynamic bot status cycling
 
 ## Requirements
 
-- **Node.js v18 or higher:** Ensure you have Node.js version 18 or higher installed. You can download it from [nodejs.org](https://nodejs.org/).
-- **MongoDB:** A MongoDB database is required for persistent data storage. You can set up a free MongoDB Atlas cluster at [mongodb.com](https://www.mongodb.com/).
+- **Node.js v18+** — [nodejs.org](https://nodejs.org/)
+- **MongoDB** — [mongodb.com](https://www.mongodb.com/)
+- **Discord Bot Token** — [Discord Developer Portal](https://discord.com/developers/applications)
 
 ## Setup
 
-1. **Clone the Repository:**
-   env
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/CharlesNaig/Discord.js-v14-Hybrid-Template-Bot.git
+   cd Discord.js-v14-Hybrid-Template-Bot
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Create `.env` file:**
+   ```env
    TOKEN=your_bot_token
    CLIENT_ID=your_client_id
    OWNER_ID=your_discord_id
    MONGO_URL=your_mongodb_url
    PREFIX=!
-   - **`ping`:** Check bot latency.
-  
-  Description: Changes the bot prefix for prefix commands. Requires Manage Guild permission.
-  Usage: /prefix <new prefix> or !prefix <new prefix>
-  Example: /prefix ? or !prefix ?
-  ### Developer Commands
+   GUILD_ID=your_dev_guild_id
+   PRODUCTION=false
+   DEFAULT_MESSAGE_TYPE=embed
+   ```
 
-- **`eval <code>`:** Evaluate JavaScript code.
-  ## Project Structure
+4. **Start the bot:**
+   ```bash
+   npm start
+   ```
+
+## Commands
+
+### Info
+| Command | Description |
+|---------|-------------|
+| `ping` | Check bot and API latency |
+| `about` | Bot information and links |
+| `help` | Command list or specific command details |
+| `stats` | Bot statistics and system info |
+
+### Config
+| Command | Description |
+|---------|-------------|
+| `prefix` | Change the server prefix |
+| `messagetype` | Set message format (embed/componentsv2/message) |
+| `setlog` | Configure logging channel |
+| `setwelcome` | Configure welcome messages |
+| `setfarewell` | Configure farewell messages |
+
+### Moderation
+| Command | Description |
+|---------|-------------|
+| `ban` | Ban a member |
+| `kick` | Kick a member |
+| `timeout` | Timeout a member |
+| `purge` | Bulk delete messages |
+| `slowmode` | Set channel slowmode |
+| `lock` | Lock/unlock a channel |
+| `warn` | Warn a member |
+| `warnings` | View member warnings |
+
+### Utility
+| Command | Description |
+|---------|-------------|
+| `avatar` | Display user avatar |
+| `userinfo` | User information |
+| `serverinfo` | Server information |
+| `roleinfo` | Role information |
+| `channelinfo` | Channel information |
+| `membercount` | Member count breakdown |
+| `invite` | Bot invite link |
+| `uptime` | Bot uptime |
+| `snipe` | Last deleted message |
+| `poll` | Create a reaction poll |
+
+### Developer
+| Command | Description |
+|---------|-------------|
+| `eval` | Evaluate JavaScript code |
+| `reload` | Reload commands |
+| `leaveguild` | Leave a guild by ID |
+| `guilds` | List all guilds |
+| `emit` | Emit test events |
+| `shutdown` | Gracefully shut down |
+
+## Project Structure
 
 ```
 src/
-├── commands/          # Command files
-│   ├── config/       # Configuration commands
-│   │   └── prefix.js # Command to change the bot's prefix
-│   ├── dev/          # Developer commands
-│   │   ├── eval.js   # Command to evaluate JavaScript code
-│   │   ├── leave-guild.js # Command to make the bot leave a guild
-│   │   └── reload.js # Command to reload bot commands
-│   └── info/         # Information commands
-│       ├── about.js  # Command to display information about the bot
-│       ├── help.js   # Command to display available commands
-│       ├── ping.js   # Command to check the bot's latency
-│       └── stats.js  # Command to display bot statistics
-├── events/           # Event handlers
-│   └── Client/       # Client events
-│       ├── interactionCreate.js # Handles interactions such as slash commands and buttons
-│       └── ready.js  # Emitted when the bot is ready
-├── schemas/          # MongoDB schemas
-│   └── Guild.js      # Schema for storing guild-specific settings, like custom prefixes
-├── structures/       # Core bot structures
-│   ├── Client.js     # Bot client
-│   ├── Command.js    # Command structure
-│   ├── Context.js    # Context wrapper
-│   ├── Event.js      # Event structure
-│   └── Logger.js     # Logger utility
-├── config.js         # Configuration loader
-└── index.js          # Entry point
+├── commands/
+│   ├── config/        # Prefix, MessageType, SetLog, SetWelcome, SetFarewell
+│   ├── dev/           # Eval, Reload, LeaveGuild, Guilds, Emit, Shutdown
+│   ├── info/          # Ping, About, Help, Stats
+│   ├── moderation/    # Ban, Kick, Timeout, Purge, Slowmode, Lock, Warn, Warnings
+│   └── utility/       # Avatar, UserInfo, ServerInfo, RoleInfo, ChannelInfo, etc.
+├── events/
+│   ├── AutoMod/       # AutoModAction
+│   ├── Channel/       # ChannelCreate, ChannelDelete, ChannelUpdate
+│   ├── Client/        # InteractionCreate, MessageCreate, ready
+│   ├── Guild/         # GuildCreate, GuildDelete, GuildUpdate
+│   ├── Member/        # GuildMemberAdd, GuildMemberRemove, GuildMemberUpdate
+│   ├── Message/       # MessageDelete, MessageUpdate
+│   ├── Moderation/    # GuildBanAdd, GuildBanRemove
+│   ├── Role/          # RoleCreate, RoleDelete, RoleUpdate
+│   └── Voice/         # VoiceStateUpdate
+├── schemas/
+│   ├── Guild.js       # Unified guild settings
+│   └── Warning.js     # Member warnings
+├── structures/
+│   ├── Client.js      # Extended Discord Client
+│   ├── Command.js     # Command base class
+│   ├── ComponentHandler.js # Button/SelectMenu/Modal handler
+│   ├── Context.js     # Unified context wrapper (3-format routing)
+│   ├── Event.js       # Event base class
+│   └── Logger.js      # Signale-based logger
+├── utils/
+│   ├── emoji.js       # getEmoji() + StatusEmojis
+│   ├── formatters.js  # formatUptime, formatBytes, truncate, timestamp, etc.
+│   ├── messageBuilder.js # MessageBuilder (builds all 3 formats)
+│   ├── pagination.js  # Button-based paginator
+│   └── resolveColor.js # Hex/number to decimal color
+├── config.js          # Configuration (colors, emojis, links)
+└── index.js           # Entry point
 ```
-> **Description of Directories:**
->
-> -   `commands/`: Contains all the command files for the bot. Each subdirectory represents a category of commands.
-> -   `events/`: Contains event handlers for various Discord events.
-> -   `schemas/`: Contains MongoDB schemas for data models.
-> -   `structures/`: Contains core bot structures and classes.
 
 ## Contributing
 
-We welcome contributions to enhance this template! Here's how you can contribute:
-
-1.  Fork the repository.
-2.  Create a new branch for your feature or bug fix.
-3.  Make your changes and commit them with clear, descriptive messages.
-4.  Submit a pull request to the main branch.
-
-> Please ensure your code adheres to the project's coding standards and includes appropriate documentation and tests.
-
-## Code of Conduct
-
-Please review and adhere to our [Code of Conduct](link-to-code-of-conduct.md) to ensure a welcoming and inclusive environment for everyone.
-
-> Replace `link-to-code-of-conduct.md` with a link to your code of conduct file.
+1. Fork the repository
+2. Create a feature branch
+3. Commit with clear messages
+4. Submit a pull request
 
 ## License
 
-This project is licensed under the GPL License. See the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, join our Discord server or open an issue on GitHub.
-
-> -   [Discord Support Server](your_discord_invite_link)
-> -   [GitHub Issues](your_github_issues_link)
+[GPL License](LICENSE)
 

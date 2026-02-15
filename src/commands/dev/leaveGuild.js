@@ -1,4 +1,5 @@
 import Command from '../../structures/Command.js';
+import { StatusEmojis } from '../../utils/emoji.js';
 
 export default class LeaveGuild extends Command {
     constructor(client) {
@@ -25,11 +26,24 @@ export default class LeaveGuild extends Command {
         const guild = this.client.guilds.cache.get(args.join(" "));
 
         if (!guild) {
-            return ctx.sendMessage("❌ Guild not found.");
+            return ctx.sendTypedMessage({
+                embed: this.client.embed()
+                    .setColor(this.client.color.error)
+                    .setDescription(`${StatusEmojis.error} Guild not found.`),
+                message: `${StatusEmojis.error} Guild not found.`,
+            });
         }
 
         const guildName = guild.name;
         await guild.leave();
-        await ctx.sendMessage(`✅ Left guild: **${guildName}**`);
+
+        this.client.logger.info(`Left guild: ${guildName}`);
+
+        return ctx.sendTypedMessage({
+            embed: this.client.embed()
+                .setColor(this.client.color.success)
+                .setDescription(`${StatusEmojis.success} Left guild: **${guildName}**`),
+            message: `${StatusEmojis.success} Left guild: **${guildName}**`,
+        });
     }
 }
