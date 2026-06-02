@@ -1,6 +1,6 @@
 import Event from "../../structures/Event.js";
 import Context from "../../structures/Context.js";
-import { InteractionType, Collection, PermissionFlagsBits, CommandInteraction } from "discord.js";
+import { InteractionType, Collection, PermissionFlagsBits, CommandInteraction, MessageFlags } from "discord.js";
 
 export default class InteractionCreate extends Event {
     constructor(...args) {
@@ -23,7 +23,7 @@ export default class InteractionCreate extends Event {
 
             // Check if command is disabled
             if (cmd.disabled) {
-                return await interaction.reply({ content: '`❌` This command is currently disabled.', ephemeral: true }).catch(() => {});
+                return await interaction.reply({ content: '`❌` This command is currently disabled.', flags: MessageFlags.Ephemeral }).catch(() => {});
             }
             
             const command = cmd.name.toLowerCase();
@@ -32,7 +32,7 @@ export default class InteractionCreate extends Event {
             this.client.logger.cmd('%s used by %s from %s', command, ctx.author.id, ctx.guild?.id || 'DM');
             
             if (!interaction.inGuild() || !interaction.channel.permissionsFor(interaction.guild.members.me).has(PermissionFlagsBits.ViewChannel)) {
-                return await interaction.reply({ content: '`❌` I cannot see this channel!', ephemeral: true }).catch(() => { });
+                return await interaction.reply({ content: '`❌` I cannot see this channel!', flags: MessageFlags.Ephemeral }).catch(() => { });
             }
 
             if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.SendMessages)) {
@@ -40,20 +40,20 @@ export default class InteractionCreate extends Event {
             }
 
             if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.EmbedLinks)) {
-                return await interaction.reply({ content: '`❌` I don\'t have **`EMBED_LINKS`** permission.', ephemeral: true }).catch(() => { });
+                return await interaction.reply({ content: '`❌` I don\'t have **`EMBED_LINKS`** permission.', flags: MessageFlags.Ephemeral }).catch(() => { });
             }
 
             // Check permissions
             if (cmd.permissions) {
                 if (cmd.permissions.client) {
                     if (!interaction.guild.members.me.permissions.has(cmd.permissions.client)) {
-                        return await interaction.reply({ content: '`❌` I don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
+                        return await interaction.reply({ content: '`❌` I don\'t have enough permissions to execute this command.', flags: MessageFlags.Ephemeral }).catch(() => { });
                     }
                 }
 
                 if (cmd.permissions.user) {
                     if (!interaction.member.permissions.has(cmd.permissions.user)) {
-                        return await interaction.reply({ content: '`❌` You don\'t have enough permissions to execute this command.', ephemeral: true }).catch(() => { });
+                        return await interaction.reply({ content: '`❌` You don\'t have enough permissions to execute this command.', flags: MessageFlags.Ephemeral }).catch(() => { });
                     }
                 }
                 
@@ -61,7 +61,7 @@ export default class InteractionCreate extends Event {
                     if (this.client.config.ownerID) {
                         const findDev = this.client.config.ownerID.find((x) => x === interaction.user.id);
                         if (!findDev) {
-                            return await interaction.reply({ content: '`❌` This command is only for developers.', ephemeral: true }).catch(() => { });
+                            return await interaction.reply({ content: '`❌` This command is only for developers.', flags: MessageFlags.Ephemeral }).catch(() => { });
                         }
                     }
                 }
@@ -85,7 +85,7 @@ export default class InteractionCreate extends Event {
                 if (now < expirationTime && timeLeft > 0.9) {
                     return interaction.reply({ 
                         content: `\`⏳\` Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`,
-                        ephemeral: true
+                        flags: MessageFlags.Ephemeral
                     });
                 }
                 timestamps.set(interaction.user.id, now);
@@ -97,10 +97,18 @@ export default class InteractionCreate extends Event {
             } catch (error) {
                 this.client.logger.error(`[InteractionCreate] Error in ${command}: ${error.message}`);
                 this.client.logger.error(error.stack);
-                await interaction.reply({
-                    ephemeral: true,
+                const response = {
+                    flags: MessageFlags.Ephemeral,
                     content: '`❌` An unexpected error occurred, the developers have been notified.',
-                }).catch(() => { });
+                };
+
+                if (interaction.replied) {
+                    await interaction.followUp(response).catch(() => { });
+                } else if (interaction.deferred) {
+                    await interaction.editReply({ content: response.content }).catch(() => { });
+                } else {
+                    await interaction.reply(response).catch(() => { });
+                }
             }
         }
 

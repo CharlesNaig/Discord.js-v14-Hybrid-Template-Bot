@@ -26,9 +26,34 @@ export default class Context {
         }
     }
 
+    normalizeInteractionResponse(content) {
+        if (!content || typeof content !== 'object' || Array.isArray(content) || !('ephemeral' in content)) {
+            return content;
+        }
+
+        const { ephemeral, ...response } = content;
+        if (ephemeral) {
+            response.flags = (response.flags ?? 0) | MessageFlags.Ephemeral;
+        }
+
+        return response;
+    }
+
     async sendMessage(content) {
+        const response = this.normalizeInteractionResponse(content);
+
         if (this.isInteraction) {
-            this.msg = await this.interaction.reply(content);
+            if (this.interaction.replied) {
+                this.msg = await this.interaction.followUp(response);
+                return this.msg;
+            }
+
+            if (this.interaction.deferred) {
+                this.msg = await this.interaction.editReply(response);
+                return this.msg;
+            }
+
+            this.msg = await this.interaction.reply(response);
             return this.msg;
         } else {
             this.msg = await this.message.channel.send(content);
@@ -37,8 +62,10 @@ export default class Context {
     }
 
     async editMessage(content) {
+        const response = this.normalizeInteractionResponse(content);
+
         if (this.isInteraction) {
-            this.msg = await this.interaction.editReply(content);
+            this.msg = await this.interaction.editReply(response);
             return this.msg;
         } else {
             this.msg = await this.msg.edit(content);
@@ -48,8 +75,21 @@ export default class Context {
 
     async sendDeferMessage(content) {
         if (this.isInteraction) {
-            this.msg = await this.interaction.deferReply({ fetchReply: true });
-            return this.msg;
+            const response = this.normalizeInteractionResponse(content);
+            const deferOptions = {};
+
+            if (response && typeof response === 'object' && !Array.isArray(response) && (response.flags & MessageFlags.Ephemeral)) {
+                deferOptions.flags = MessageFlags.Ephemeral;
+            }
+
+            await this.interaction.deferReply(deferOptions);
+
+            if (content !== undefined) {
+                this.msg = await this.interaction.editReply(response);
+                return this.msg;
+            }
+
+            return null;
         } else {
             this.msg = await this.message.channel.send(content);
             return this.msg;
@@ -57,8 +97,10 @@ export default class Context {
     }
 
     async sendFollowUp(content) {
+        const response = this.normalizeInteractionResponse(content);
+
         if (this.isInteraction) {
-            return await this.interaction.followUp(content);
+            return await this.interaction.followUp(response);
         } else {
             return await this.channel.send(content);
         }
@@ -81,25 +123,25 @@ export default class Context {
                     return this.sendMessage({
                         flags: MessageFlags.IsComponentsV2,
                         components: Array.isArray(componentsv2) ? componentsv2 : [componentsv2],
-                        ...(ephemeral && { ephemeral: true })
+                        ...(ephemeral && { flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral })
                     });
                 }
-                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { ephemeral: true }) });
+                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
                 break;
 
             case 'message':
-                if (message) return this.sendMessage({ content: message, ...(ephemeral && { ephemeral: true }) });
-                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { ephemeral: true }) });
+                if (message) return this.sendMessage({ content: message, ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
+                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
                 break;
 
             case 'embed':
             default:
-                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { ephemeral: true }) });
-                if (message) return this.sendMessage({ content: message, ...(ephemeral && { ephemeral: true }) });
+                if (embed) return this.sendMessage({ embeds: [embed], ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
+                if (message) return this.sendMessage({ content: message, ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
                 break;
         }
 
-        return this.sendMessage({ content: message || '`❌` No content to display.', ...(ephemeral && { ephemeral: true }) });
+        return this.sendMessage({ content: message || '`❌` No content to display.', ...(ephemeral && { flags: MessageFlags.Ephemeral }) });
     }
 
     // ─── Edit with automatic message type routing ───
