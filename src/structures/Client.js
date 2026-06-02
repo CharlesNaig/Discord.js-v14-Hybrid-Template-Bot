@@ -10,7 +10,7 @@ export class BotClient extends Client {
     constructor() {
         super({
             allowedMentions: {
-                parse: ['users', 'roles', 'everyone'],
+                parse: ['users'],
                 repliedUser: false,
             },
             intents: [

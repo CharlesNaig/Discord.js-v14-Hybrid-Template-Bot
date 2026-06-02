@@ -20,7 +20,7 @@
 | Feature | Description |
 |---------|-------------|
 | **Hybrid Commands** | Single command file handles both `!ping` prefix and `/ping` slash commands |
-| **3 Message Formats** | Per-guild configurable output: Embeds, Components V2, or plain text |
+| **3 Message Formats** | Per-guild configurable output: Embeds, Components V2, or Message (plain text) |
 | **33 Commands** | Across 5 categories — info, config, moderation, utility, and dev |
 | **21 Event Handlers** | Guild, member, voice, moderation, message, automod, channel, and role events |
 | **MongoDB Integration** | Unified guild schema for prefix, message type, logging, welcome/farewell, autorole |
@@ -58,7 +58,7 @@ The bot supports **3 output formats** configurable per guild via `/messagetype`:
 ```bash
 git clone https://github.com/CharlesNaig/Discord.js-v14-Hybrid-Template-Bot.git
 cd Discord.js-v14-Hybrid-Template-Bot
-npm install
+pnpm install
 ```
 
 **2. Configure environment**
@@ -87,8 +87,8 @@ INVITE_LINK=https://discord.com/oauth2/authorize?client_id=YOUR_ID&permissions=8
 
 **3. Start the bot**
 ```bash
-npm start        # Production
-npm run dev      # Development (nodemon)
+pnpm start       # Production
+pnpm dev         # Development (nodemon)
 ```
 
 ---
