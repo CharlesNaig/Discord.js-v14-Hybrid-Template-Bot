@@ -38,15 +38,18 @@ export default class Snipe extends Command {
 
         const content = truncate(snipe.content || '*No text content*', 1024);
         const time = timestamp(new Date(snipe.timestamp), 'R');
+        const authorTag = snipe.authorTag || 'Unknown';
+        const avatarURL = snipe.avatarURL || null;
+        const attachmentURL = Array.isArray(snipe.attachments) ? snipe.attachments[0] : null;
 
         const embed = this.client.embed()
             .setColor(this.client.color.default)
-            .setAuthor({ name: snipe.author.tag, iconURL: snipe.author.displayAvatarURL })
+            .setAuthor({ name: authorTag, ...(avatarURL && { iconURL: avatarURL }) })
             .setDescription(content)
             .setFooter({ text: `Deleted ${time}` })
             .setTimestamp();
 
-        if (snipe.attachment) embed.setImage(snipe.attachment);
+        if (attachmentURL) embed.setImage(attachmentURL);
 
         const container = new ContainerBuilder()
             .setAccentColor(resolveColor(this.client.color.default))
@@ -55,14 +58,14 @@ export default class Snipe extends Command {
             )
             .addSeparatorComponents(new SeparatorBuilder().setDivider(true).setSpacing(SeparatorSpacingSize.Small))
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent(`${getEmoji('member', '👤')} **${snipe.author.tag}**`),
+                new TextDisplayBuilder().setContent(`${getEmoji('member', '👤')} **${authorTag}**`),
                 new TextDisplayBuilder().setContent(content),
                 new TextDisplayBuilder().setContent(`-# Deleted ${time}`),
             );
 
         const message = [
             `${getEmoji('delete', '🗑️')} **Sniped Message**`,
-            `**Author:** ${snipe.author.tag}`,
+            `**Author:** ${authorTag}`,
             content,
             `Deleted ${time}`,
         ].join('\n');

@@ -45,6 +45,10 @@ export default class Prefix extends Command {
             });
         }
 
+        if (ctx.isInteraction) {
+            await ctx.sendDeferMessage();
+        }
+
         let data = await GuildSettings.findOne({ _id: ctx.guild.id });
         if (!data) {
             data = new GuildSettings({ _id: ctx.guild.id, prefix });

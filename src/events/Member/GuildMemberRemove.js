@@ -15,7 +15,7 @@ export default class GuildMemberRemove extends Event {
 
         // ─── Farewell Message ───
         if (settings.farewell?.enabled && settings.farewell?.channel) {
-            const channel = member.guild.channels.cache.get(settings.farewell.channel);
+            const channel = member.guild.channels.cache.get(settings?.farewell?.channel);
             if (!channel) return;
 
             const farewellMsg = (settings.farewell.message || 'Goodbye {user}!')
@@ -37,7 +37,7 @@ export default class GuildMemberRemove extends Event {
 
         // ─── Logging ───
         if (settings.logging?.enabled && settings.logging?.channel && settings.logging?.events?.memberLeave) {
-            const logChannel = member.guild.channels.cache.get(settings.logging.channel);
+            const logChannel = member.guild.channels.cache.get(settings?.logging?.channel);
             if (!logChannel) return;
 
             const roles = member.roles.cache

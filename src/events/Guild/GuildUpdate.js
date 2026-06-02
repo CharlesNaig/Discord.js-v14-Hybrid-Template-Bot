@@ -13,7 +13,7 @@ export default class GuildUpdate extends Event {
         const settings = await this.client.getGuildSettings(newGuild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel) return;
 
-        const logChannel = newGuild.channels.cache.get(settings.logging.channel);
+        const logChannel = newGuild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const changes = [];

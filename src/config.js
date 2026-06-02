@@ -1,6 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+const normalizeEnvValue = (value) => typeof value === "string" ? value.trim() : "";
+
+const isMissingOrPlaceholder = (value, placeholders = []) => {
+    const normalized = normalizeEnvValue(value).toLowerCase();
+    return !normalized || placeholders.includes(normalized);
+};
+
 export const config = {
     // Auth & IDs
     token: process.env.TOKEN || "",
@@ -10,6 +17,7 @@ export const config = {
     mongourl: process.env.MONGO_URL || "",
     guildId: process.env.GUILD_ID || "",
     production: process.env.PRODUCTION === "true",
+    registerCommands: process.env.REGISTER_COMMANDS === "true",
 
     // Message Type System
     defaultMessageType: process.env.DEFAULT_MESSAGE_TYPE || "embed",
@@ -122,3 +130,23 @@ export const config = {
         website: process.env.WEBSITE || "",
     },
 };
+
+export function validateConfig({ requireToken = true, requireClientId = false, requireGuildId = false } = {}) {
+    const errors = [];
+
+    if (requireToken && isMissingOrPlaceholder(config.token, ["your_bot_token"])) {
+        errors.push("TOKEN is missing or still set to a placeholder value.");
+    }
+
+    if (requireClientId && isMissingOrPlaceholder(config.clientId, ["your_client_id"])) {
+        errors.push("CLIENT_ID is missing or still set to a placeholder value.");
+    }
+
+    if (requireGuildId && isMissingOrPlaceholder(config.guildId, ["your_guild_id"])) {
+        errors.push("GUILD_ID is required when PRODUCTION=false and must not be a placeholder value.");
+    }
+
+    if (errors.length > 0) {
+        throw new Error(`Invalid configuration: ${errors.join(" ")}`);
+    }
+}

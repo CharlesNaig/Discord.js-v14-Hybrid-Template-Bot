@@ -13,7 +13,7 @@ export default class RoleUpdate extends Event {
         const settings = await this.client.getGuildSettings(newRole.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.roleUpdate) return;
 
-        const logChannel = newRole.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = newRole.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const changes = [];

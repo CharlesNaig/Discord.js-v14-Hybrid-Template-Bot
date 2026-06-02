@@ -15,9 +15,9 @@ export default class VoiceStateUpdate extends Event {
 
         // ─── 24/7 Voice Reconnect ───
         if (settings?.voiceSettings?.twentyFourSeven && oldState.member?.id === this.client.user.id) {
-            if (oldState.channelId && !newState.channelId && settings.voiceSettings.voiceChannel) {
+            if (oldState.channelId && !newState.channelId && settings?.voiceSettings?.voiceChannel) {
                 try {
-                    const channel = guild.channels.cache.get(settings.voiceSettings.voiceChannel);
+                    const channel = guild.channels.cache.get(settings?.voiceSettings?.voiceChannel);
                     if (channel) {
                         this.client.logger.info(`[24/7] Reconnecting to ${channel.name} in ${guild.name}`);
                     }
@@ -30,7 +30,7 @@ export default class VoiceStateUpdate extends Event {
         // ─── Voice Logging ───
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.voiceUpdate) return;
 
-        const logChannel = guild.channels.cache.get(settings.logging.channel);
+        const logChannel = guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const member = newState.member || oldState.member;

@@ -13,7 +13,7 @@ export default class RoleDelete extends Event {
         const settings = await this.client.getGuildSettings(role.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.roleDelete) return;
 
-        const logChannel = role.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = role.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const embed = new EmbedBuilder()

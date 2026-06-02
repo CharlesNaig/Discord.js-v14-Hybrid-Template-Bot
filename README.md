@@ -75,6 +75,7 @@ MONGO_URL=your_mongodb_connection_string
 PREFIX=!
 GUILD_ID=your_dev_guild_id
 PRODUCTION=false
+REGISTER_COMMANDS=false
 DEFAULT_MESSAGE_TYPE=embed
 DEFAULT_COLOR=#5865F2
 SUPPORT_SERVER=https://discord.gg/your_invite
@@ -82,6 +83,7 @@ INVITE_LINK=https://discord.com/oauth2/authorize?client_id=YOUR_ID&permissions=8
 ```
 
 > **`PRODUCTION`** — Set to `true` to register slash commands globally. Set to `false` to register to `GUILD_ID` only (faster for development).
+> **`REGISTER_COMMANDS`** — Leave this as `false` for normal bot startup. Set it to `true` only when you want to push slash command changes to Discord.
 
 **3. Start the bot**
 ```bash

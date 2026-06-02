@@ -13,7 +13,7 @@ export default class GuildBanRemove extends Event {
         const settings = await this.client.getGuildSettings(ban.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.banRemove) return;
 
-        const logChannel = ban.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = ban.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         let moderator = 'Unknown';

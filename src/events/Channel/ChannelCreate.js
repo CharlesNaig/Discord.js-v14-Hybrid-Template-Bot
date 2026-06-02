@@ -15,7 +15,7 @@ export default class ChannelCreate extends Event {
         const settings = await this.client.getGuildSettings(channel.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.channelCreate) return;
 
-        const logChannel = channel.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = channel.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const typeNames = {

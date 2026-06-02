@@ -15,7 +15,7 @@ export default class ChannelUpdate extends Event {
         const settings = await this.client.getGuildSettings(newChannel.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.channelUpdate) return;
 
-        const logChannel = newChannel.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = newChannel.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const changes = [];

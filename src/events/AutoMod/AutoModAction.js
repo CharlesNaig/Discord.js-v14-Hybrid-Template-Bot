@@ -13,7 +13,7 @@ export default class AutoModAction extends Event {
         const settings = await this.client.getGuildSettings(action.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel) return;
 
-        const logChannel = action.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = action.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const embed = new EmbedBuilder()

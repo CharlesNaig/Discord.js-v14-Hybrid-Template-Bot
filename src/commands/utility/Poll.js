@@ -44,7 +44,7 @@ export default class Poll extends Command {
             .setColor(this.client.color.info)
             .setTitle(`${getEmoji('info', '📊')} Poll`)
             .setDescription(`**${question}**\n\n✅ — Yes\n❌ — No`)
-            .setFooter({ text: `Poll by ${ctx.author.tag}`, icon_url: ctx.author.displayAvatarURL() })
+            .setFooter({ text: `Poll by ${ctx.author.tag}`, iconURL: ctx.author.displayAvatarURL() })
             .setTimestamp();
 
         const container = new ContainerBuilder()

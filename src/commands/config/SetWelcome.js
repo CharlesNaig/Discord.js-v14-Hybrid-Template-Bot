@@ -50,6 +50,10 @@ export default class SetWelcome extends Command {
     }
 
     async run(ctx, args) {
+        if (ctx.isInteraction) {
+            await ctx.sendDeferMessage();
+        }
+
         let data = await GuildSettings.findOne({ _id: ctx.guild.id });
         if (!data) {
             data = new GuildSettings({ _id: ctx.guild.id });

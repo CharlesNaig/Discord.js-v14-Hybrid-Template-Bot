@@ -29,7 +29,7 @@ export default class GuildMemberAdd extends Event {
 
         // ─── Welcome Message ───
         if (settings.welcome?.enabled && settings.welcome?.channel) {
-            const channel = member.guild.channels.cache.get(settings.welcome.channel);
+            const channel = member.guild.channels.cache.get(settings?.welcome?.channel);
             if (!channel) return;
 
             const welcomeMsg = (settings.welcome.message || 'Welcome {user} to {server}!')
@@ -51,7 +51,7 @@ export default class GuildMemberAdd extends Event {
 
         // ─── Logging ───
         if (settings.logging?.enabled && settings.logging?.channel && settings.logging?.events?.memberJoin) {
-            const logChannel = member.guild.channels.cache.get(settings.logging.channel);
+            const logChannel = member.guild.channels.cache.get(settings?.logging?.channel);
             if (!logChannel) return;
 
             const embed = new EmbedBuilder()

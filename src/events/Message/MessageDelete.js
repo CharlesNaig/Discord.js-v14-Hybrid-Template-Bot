@@ -17,9 +17,9 @@ export default class MessageDelete extends Event {
         if (message.content || message.attachments.size > 0) {
             this.client.snipes.set(message.channel.id, {
                 content: message.content || null,
-                author: message.author?.tag || 'Unknown',
+                authorTag: message.author?.tag || 'Unknown',
                 authorId: message.author?.id || null,
-                avatar: message.author?.displayAvatarURL({ size: 128 }) || null,
+                avatarURL: message.author?.displayAvatarURL({ size: 128 }) || null,
                 attachments: message.attachments.map(a => a.url),
                 timestamp: Date.now(),
             });
@@ -37,7 +37,7 @@ export default class MessageDelete extends Event {
         const settings = await this.client.getGuildSettings(message.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.messageDelete) return;
 
-        const logChannel = message.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = message.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const embed = new EmbedBuilder()

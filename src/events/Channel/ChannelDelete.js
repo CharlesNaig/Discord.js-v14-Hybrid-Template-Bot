@@ -15,7 +15,7 @@ export default class ChannelDelete extends Event {
         const settings = await this.client.getGuildSettings(channel.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.channelDelete) return;
 
-        const logChannel = channel.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = channel.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel || logChannel.id === channel.id) return;
 
         const typeNames = {

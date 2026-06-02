@@ -18,7 +18,7 @@ export default class MessageUpdate extends Event {
         const settings = await this.client.getGuildSettings(newMessage.guild.id);
         if (!settings?.logging?.enabled || !settings?.logging?.channel || !settings?.logging?.events?.messageUpdate) return;
 
-        const logChannel = newMessage.guild.channels.cache.get(settings.logging.channel);
+        const logChannel = newMessage.guild.channels.cache.get(settings?.logging?.channel);
         if (!logChannel) return;
 
         const embed = new EmbedBuilder()

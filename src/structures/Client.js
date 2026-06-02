@@ -1,8 +1,8 @@
 import { Client, Routes, REST, PermissionsBitField, ApplicationCommandType, GatewayIntentBits, Partials, Collection, EmbedBuilder } from 'discord.js';
 import { readdirSync, existsSync } from 'fs';
 import pkg from 'mongoose';
-const { connect, set } = pkg;
-import { config } from '../config.js';
+const { connect, set, connection } = pkg;
+import { config, validateConfig } from '../config.js';
 import Logger from './Logger.js';
 import GuildSettings from '../schemas/Guild.js';
 
@@ -66,9 +66,16 @@ export class BotClient extends Client {
      */
     async getGuildSettings(guildId) {
         if (this.guildSettings.has(guildId)) return this.guildSettings.get(guildId);
-        const data = await GuildSettings.findOne({ _id: guildId });
-        if (data) this.guildSettings.set(guildId, data);
-        return data;
+        if (!this.config.mongourl || connection.readyState !== 1) return null;
+
+        try {
+            const data = await GuildSettings.findOne({ _id: guildId });
+            if (data) this.guildSettings.set(guildId, data);
+            return data;
+        } catch (error) {
+            this.logger.warn(`[GuildSettings] Failed to load settings for ${guildId}: ${error.message}`);
+            return null;
+        }
     }
     
     async loadEvents() {
@@ -125,22 +132,35 @@ export class BotClient extends Client {
                 }
             }
         }
-        
+
+        this.logger.cmd(`Successfully loaded ${i} commands locally`);
+
+        if (!this.config.registerCommands) {
+            this.logger.cmd('Skipping Discord slash command registration because REGISTER_COMMANDS=false.');
+            return;
+        }
+
+        validateConfig({
+            requireClientId: true,
+            requireGuildId: !this.config.production,
+        });
+
         const rest = new REST({ version: '10' }).setToken(this ? this.config.token : config.token);
-        if (!this.config.production) {
+        if (this.config.production) {
             try {
+                this.logger.cmd(`Registering ${cmdData.length} slash command(s) globally.`);
                 await rest.put(Routes.applicationCommands(this ? this.config.clientId : config.clientId), { body: cmdData });
             } catch (e) {
                 this.logger.error(e);
             }
         } else {
             try {
+                this.logger.cmd(`Registering ${cmdData.length} slash command(s) to guild ${this.config.guildId}.`);
                 await rest.put(Routes.applicationGuildCommands(this.config.clientId, this.config.guildId), { body: cmdData });
             } catch (e) {
                 this.logger.error(e);
             }
         }
-        this.logger.cmd(`Successfully loaded ${i} commands`);
     }
     
     async connectMongodb() {
@@ -150,11 +170,23 @@ export class BotClient extends Client {
     }
     
     async start() {
-        super.login(this.token);
-        if (this.config.mongourl) {
-            this.connectMongodb();
+        try {
+            validateConfig({ requireToken: true });
+
+            await this.loadEvents();
+            await this.loadCommands();
+
+            if (this.config.mongourl) {
+                await this.connectMongodb();
+            }
+
+            await super.login(this.token);
+        } catch (error) {
+            this.logger.error(`[STARTUP] Fatal startup error: ${error.message}`);
+            if (error.stack) {
+                this.logger.error(error.stack);
+            }
+            process.exit(1);
         }
-        this.loadEvents();
-        this.loadCommands();
     }
 }

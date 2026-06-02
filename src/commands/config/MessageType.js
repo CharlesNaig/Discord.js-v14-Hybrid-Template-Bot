@@ -43,6 +43,10 @@ export default class MessageType extends Command {
         const type = args[0]?.toLowerCase();
         const validTypes = this.client.config.messageTypes;
 
+        if (ctx.isInteraction) {
+            await ctx.sendDeferMessage();
+        }
+
         if (!type || !validTypes.includes(type)) {
             const current = await ctx.getMessageType();
             return ctx.sendTypedMessage({
