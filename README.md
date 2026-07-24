@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/header/discordjs-v14-hybrid-template-banner.png" alt="Discord.js v14 Hybrid Template Bot banner" width="100%">
+
 # Discord.js v14 Hybrid Template Bot
 
 **A production-ready Discord bot template with hybrid commands, configurable message formats, and comprehensive event handling.**
