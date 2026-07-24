@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="600" viewBox="0 0 1800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Discord.js v14 Hybrid Template Bot</title>
+  <desc id="desc">A scalable Discord bot starter with hybrid commands, modular structure, and MongoDB support.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050914"/>
+      <stop offset="0.55" stop-color="#071225"/>
+      <stop offset="1" stop-color="#050817"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="0.52" stop-color="#5865F2"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#5865F2" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#5865F2" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#29416f" stroke-opacity=".15" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1800" height="600" rx="28" fill="url(#bg)"/>
+  <rect width="1800" height="600" rx="28" fill="url(#grid)"/>
+  <ellipse cx="1470" cy="292" rx="360" ry="330" fill="url(#glow)"/>
+
+  <g opacity=".42" stroke="#1d4ed8" stroke-width="2" fill="none">
+    <path d="M1090 90h145l35-35h165"/>
+    <path d="M1140 505h160l35-35h205"/>
+    <path d="M1510 110h120l40 40h88"/>
+    <path d="M1510 490h118l38-38h92"/>
+    <circle cx="1090" cy="90" r="6" fill="#22D3EE" stroke="none"/>
+    <circle cx="1140" cy="505" r="6" fill="#5865F2" stroke="none"/>
+    <circle cx="1758" cy="150" r="6" fill="#5865F2" stroke="none"/>
+    <circle cx="1758" cy="452" r="6" fill="#22D3EE" stroke="none"/>
+  </g>
+
+  <g transform="translate(66 76)">
+    <rect x="0" y="35" width="6" height="176" rx="3" fill="url(#accent)"/>
+    <text x="38" y="84" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="66" font-weight="800" fill="url(#brand)">Discord.js v14</text>
+    <text x="455" y="84" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="66" font-weight="800" fill="#F8FAFC">Hybrid Template Bot</text>
+    <text x="38" y="145" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30" fill="#B8C3D9">A scalable Discord bot starter with hybrid commands</text>
+
+    <g transform="translate(38 230)">
+      <g>
+        <rect width="270" height="108" rx="22" fill="#081121" stroke="#5865F2" stroke-width="2"/>
+        <rect x="22" y="24" width="60" height="60" rx="16" fill="#5865F2"/>
+        <text x="52" y="66" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700" fill="white">/</text>
+        <text x="101" y="49" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" font-weight="700" fill="#F8FAFC">Slash + Prefix</text>
+        <text x="101" y="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" fill="#D7DEEC">Commands</text>
+      </g>
+      <g transform="translate(294)">
+        <rect width="252" height="108" rx="22" fill="#081121" stroke="#22D3EE" stroke-width="2"/>
+        <g transform="translate(26 28)" fill="none" stroke="#22D3EE" stroke-width="4"><path d="M24 0l22 13v26L24 52 2 39V13z"/><path d="M24 0v26m22-13L24 26 2 13m22 13v26"/></g>
+        <text x="92" y="49" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" font-weight="700" fill="#F8FAFC">Modular</text>
+        <text x="92" y="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" fill="#D7DEEC">Structure</text>
+      </g>
+      <g transform="translate(570)">
+        <rect width="244" height="108" rx="22" fill="#081121" stroke="#34D058" stroke-width="2"/>
+        <path d="M50 21c20 17 28 37 19 60-16 1-30-8-35-23-5-16 2-28 16-37z" fill="#34D058"/>
+        <path d="M50 31v47" stroke="#0B6D2B" stroke-width="3"/>
+        <text x="91" y="49" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" font-weight="700" fill="#F8FAFC">MongoDB</text>
+        <text x="91" y="78" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="23" fill="#D7DEEC">Ready</text>
+      </g>
+      <g transform="translate(838)">
+        <rect width="258" height="108" rx="22" fill="#081121" stroke="#8B5CF6" stroke-width="2"/>
+        <path d="M28 34c10-8 37-8 47 0 6 9 9 20 8 31-10 8-19 11-31 11S31 73 21 65c-1-11 2-22 7-31z" fill="#5865F2"/>
+        <circle cx="42" cy="52" r="4" fill="white"/><circle cx="62" cy="52" r="4" fill="white"/>
+        <text x="100" y="63" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="25" font-weight="700" fill="#F8FAFC">discord.js v14</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(1358 116)" filter="url(#softGlow)">
+    <circle cx="155" cy="170" r="150" fill="#0A1230" stroke="#3346C7" stroke-width="4"/>
+    <circle cx="155" cy="170" r="126" fill="#0B1028" stroke="#5865F2" stroke-width="6"/>
+    <path d="M91 101c22-22 106-22 128 0 20 28 27 74 13 108-17 24-47 36-77 36s-60-12-77-36c-14-34-7-80 13-108z" fill="#151A48" stroke="#6574FF" stroke-width="5"/>
+    <path d="M111 164q16-25 32 0" fill="none" stroke="#22D3EE" stroke-width="10" stroke-linecap="round"/>
+    <path d="M168 164q16-25 32 0" fill="none" stroke="#22D3EE" stroke-width="10" stroke-linecap="round"/>
+    <path d="M155 20V-8" stroke="#5865F2" stroke-width="8"/>
+    <circle cx="155" cy="-18" r="19" fill="#5865F2" stroke="#22D3EE" stroke-width="4"/>
+    <rect x="97" y="275" width="116" height="68" rx="15" fill="#10193C" stroke="#22D3EE" stroke-width="3"/>
+    <text x="155" y="320" text-anchor="middle" font-family="Consolas,monospace" font-size="35" font-weight="700" fill="#22D3EE">&lt;/&gt;</text>
+  </g>
+
+  <g fill="#1D4ED8" opacity=".48">
+    <circle cx="45" cy="520" r="4"/><circle cx="67" cy="520" r="4"/><circle cx="89" cy="520" r="4"/><circle cx="111" cy="520" r="4"/>
+    <circle cx="45" cy="542" r="4"/><circle cx="67" cy="542" r="4"/><circle cx="89" cy="542" r="4"/><circle cx="111" cy="542" r="4"/>
+    <circle cx="1685" cy="52" r="4"/><circle cx="1707" cy="52" r="4"/><circle cx="1729" cy="52" r="4"/><circle cx="1751" cy="52" r="4"/>
+    <circle cx="1685" cy="74" r="4"/><circle cx="1707" cy="74" r="4"/><circle cx="1729" cy="74" r="4"/><circle cx="1751" cy="74" r="4"/>
+  </g>
+</svg>
