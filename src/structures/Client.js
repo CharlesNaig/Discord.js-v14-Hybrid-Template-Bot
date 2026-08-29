@@ -1,5 +1,5 @@
 import { Client, Routes, REST, PermissionsBitField, ApplicationCommandType, GatewayIntentBits, Partials, Collection, EmbedBuilder } from 'discord.js';
-import { readdirSync, existsSync } from 'fs';
+import { readdirSync, existsSync, statSync } from 'fs';
 import pkg from 'mongoose';
 const { connect, set, connection } = pkg;
 import { config, validateConfig } from '../config.js';
@@ -105,6 +105,8 @@ export class BotClient extends Client {
         const cmdData = [];
         const commandFiles = readdirSync('./src/commands');
         for (const file of commandFiles) {
+            // Skip non-directory entries (e.g. template.js) in the commands root
+            if (!statSync(`./src/commands/${file}`).isDirectory()) continue;
             const commands = readdirSync(`./src/commands/${file}`).filter(file => file.endsWith('.js'));
             for (const command of commands) {
                 const Command = (await import(`../commands/${file}/${command}`)).default;
