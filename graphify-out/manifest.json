@@ -1,0 +1,387 @@
+{
+  "package.json": {
+    "mtime": 1780421768.9637053,
+    "ast_hash": "994d7337654ed30ee3ae3fa30e566d43",
+    "semantic_hash": "994d7337654ed30ee3ae3fa30e566d43"
+  },
+  "renovate.json": {
+    "mtime": 1771162073.5820765,
+    "ast_hash": "18ff18b66d21d32d5f25f0f0850c894d",
+    "semantic_hash": "18ff18b66d21d32d5f25f0f0850c894d"
+  },
+  "sharder.js": {
+    "mtime": 1775923910.7925172,
+    "ast_hash": "888096603a3a0ee6f0f46c22e3801cd9",
+    "semantic_hash": "888096603a3a0ee6f0f46c22e3801cd9"
+  },
+  "src/commands/config/MessageType.js": {
+    "mtime": 1780421404.6297019,
+    "ast_hash": "8939dc2d6a8f2281c4438092770b0034",
+    "semantic_hash": "8939dc2d6a8f2281c4438092770b0034"
+  },
+  "src/commands/config/Prefix.js": {
+    "mtime": 1780421404.489106,
+    "ast_hash": "590b087e8f0c6f11723900ab9e8c273a",
+    "semantic_hash": "590b087e8f0c6f11723900ab9e8c273a"
+  },
+  "src/commands/config/SetFarewell.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "601842d7c081ea3960c42c3a22127851",
+    "semantic_hash": "601842d7c081ea3960c42c3a22127851"
+  },
+  "src/commands/config/SetLog.js": {
+    "mtime": 1780421404.2236488,
+    "ast_hash": "0556ebd2446a537f189dbb495a4363d0",
+    "semantic_hash": "0556ebd2446a537f189dbb495a4363d0"
+  },
+  "src/commands/config/SetWelcome.js": {
+    "mtime": 1780421404.3389633,
+    "ast_hash": "7677662925d328b0791784194af072dc",
+    "semantic_hash": "7677662925d328b0791784194af072dc"
+  },
+  "src/commands/config/Status.js": {
+    "mtime": 1780418974.2668798,
+    "ast_hash": "e41a9fb6b21ded2ec9af48efbf2fae6b",
+    "semantic_hash": "e41a9fb6b21ded2ec9af48efbf2fae6b"
+  },
+  "src/commands/dev/Emit.js": {
+    "mtime": 1771169516.5288997,
+    "ast_hash": "6ee5caf46c394909d0490305ee4edee9",
+    "semantic_hash": "6ee5caf46c394909d0490305ee4edee9"
+  },
+  "src/commands/dev/Eval.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "e4b98e4252c2f015264f2c66f8f73b7d",
+    "semantic_hash": "e4b98e4252c2f015264f2c66f8f73b7d"
+  },
+  "src/commands/dev/Guilds.js": {
+    "mtime": 1771169516.5288997,
+    "ast_hash": "0c31e14d9778546c32a9347aba54149b",
+    "semantic_hash": "0c31e14d9778546c32a9347aba54149b"
+  },
+  "src/commands/dev/Reload.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "c24bfd916dd2d17dabf88dee9dda668d",
+    "semantic_hash": "c24bfd916dd2d17dabf88dee9dda668d"
+  },
+  "src/commands/dev/Shutdown.js": {
+    "mtime": 1771169516.5288997,
+    "ast_hash": "f1e71367482976d2375e51a84c633066",
+    "semantic_hash": "f1e71367482976d2375e51a84c633066"
+  },
+  "src/commands/dev/leaveGuild.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "ca208a82cbe59bf07e8bf495cb8e01bb",
+    "semantic_hash": "ca208a82cbe59bf07e8bf495cb8e01bb"
+  },
+  "src/commands/info/About.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "3d7f74e2e2ad825d102cb37e3d81dc92",
+    "semantic_hash": "3d7f74e2e2ad825d102cb37e3d81dc92"
+  },
+  "src/commands/info/Help.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "d72cb1633f5c67cd83c66de662dbee70",
+    "semantic_hash": "d72cb1633f5c67cd83c66de662dbee70"
+  },
+  "src/commands/info/Ping.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "405987dc7f82e3eeaa68e03fc874c70c",
+    "semantic_hash": "405987dc7f82e3eeaa68e03fc874c70c"
+  },
+  "src/commands/info/Stats.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "05a093cded2ad61805f7d06af99671a8",
+    "semantic_hash": "05a093cded2ad61805f7d06af99671a8"
+  },
+  "src/commands/moderation/Ban.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "8f7521a6ccd8771bb371a0bb95d68180",
+    "semantic_hash": "8f7521a6ccd8771bb371a0bb95d68180"
+  },
+  "src/commands/moderation/Kick.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "ef7858c15ccde8d07425378862bb7a5f",
+    "semantic_hash": "ef7858c15ccde8d07425378862bb7a5f"
+  },
+  "src/commands/moderation/Lock.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "b098acec5bcf5677c37fa940d70925ab",
+    "semantic_hash": "b098acec5bcf5677c37fa940d70925ab"
+  },
+  "src/commands/moderation/Purge.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "209b1477ee9838167da3c2d6f9839c89",
+    "semantic_hash": "209b1477ee9838167da3c2d6f9839c89"
+  },
+  "src/commands/moderation/Slowmode.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "efe7c4f3f47bceb94ecbaf294bc3a034",
+    "semantic_hash": "efe7c4f3f47bceb94ecbaf294bc3a034"
+  },
+  "src/commands/moderation/Timeout.js": {
+    "mtime": 1771169516.4899561,
+    "ast_hash": "0b3f1582033c4564bc3e6a5633dfd5c2",
+    "semantic_hash": "0b3f1582033c4564bc3e6a5633dfd5c2"
+  },
+  "src/commands/moderation/Warn.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "4a2112a23c2e6bdb8d901a90a587a887",
+    "semantic_hash": "4a2112a23c2e6bdb8d901a90a587a887"
+  },
+  "src/commands/moderation/Warnings.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "0d2bedb0634241989738d20325cc93d7",
+    "semantic_hash": "0d2bedb0634241989738d20325cc93d7"
+  },
+  "src/commands/utility/Avatar.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "b715fe1d271c170b6f9155861af59188",
+    "semantic_hash": "b715fe1d271c170b6f9155861af59188"
+  },
+  "src/commands/utility/ChannelInfo.js": {
+    "mtime": 1771169516.5283349,
+    "ast_hash": "71bb00bb96fd6fc6cc392afd7a20d2e4",
+    "semantic_hash": "71bb00bb96fd6fc6cc392afd7a20d2e4"
+  },
+  "src/commands/utility/Invite.js": {
+    "mtime": 1771169516.5283349,
+    "ast_hash": "29d37db27dcbfd2f1dbc252fc6403777",
+    "semantic_hash": "29d37db27dcbfd2f1dbc252fc6403777"
+  },
+  "src/commands/utility/MemberCount.js": {
+    "mtime": 1771169516.5283349,
+    "ast_hash": "e0bb60ca9a89c72bb037ce6f8199ad4e",
+    "semantic_hash": "e0bb60ca9a89c72bb037ce6f8199ad4e"
+  },
+  "src/commands/utility/Poll.js": {
+    "mtime": 1780421619.603096,
+    "ast_hash": "d37e56e910da5b78ff0ec73f16929260",
+    "semantic_hash": "d37e56e910da5b78ff0ec73f16929260"
+  },
+  "src/commands/utility/RoleInfo.js": {
+    "mtime": 1771169516.5119793,
+    "ast_hash": "975161e841b13a2b8e76f8c51c46a0d6",
+    "semantic_hash": "975161e841b13a2b8e76f8c51c46a0d6"
+  },
+  "src/commands/utility/ServerInfo.js": {
+    "mtime": 1771169516.4909713,
+    "ast_hash": "658d3113057c9a8b82c82bc0a5bdadfd",
+    "semantic_hash": "658d3113057c9a8b82c82bc0a5bdadfd"
+  },
+  "src/commands/utility/Snipe.js": {
+    "mtime": 1780421619.4680703,
+    "ast_hash": "051a4663165865ad7a0b98fbcde2b215",
+    "semantic_hash": "051a4663165865ad7a0b98fbcde2b215"
+  },
+  "src/commands/utility/Uptime.js": {
+    "mtime": 1771169516.5283349,
+    "ast_hash": "f9e875b1cd45ca9017d4291a9196d3b7",
+    "semantic_hash": "f9e875b1cd45ca9017d4291a9196d3b7"
+  },
+  "src/commands/utility/UserInfo.js": {
+    "mtime": 1771166449.1815524,
+    "ast_hash": "256da940624d8c7ae1fb41a23ef98cf8",
+    "semantic_hash": "256da940624d8c7ae1fb41a23ef98cf8"
+  },
+  "src/config.js": {
+    "mtime": 1780420494.02701,
+    "ast_hash": "d518067f9185771e3a4e621a639177dd",
+    "semantic_hash": "d518067f9185771e3a4e621a639177dd"
+  },
+  "src/events/AutoMod/AutoModAction.js": {
+    "mtime": 1780421291.37904,
+    "ast_hash": "cb2223953aa9cabcb18bbbca481ad14a",
+    "semantic_hash": "cb2223953aa9cabcb18bbbca481ad14a"
+  },
+  "src/events/Channel/ChannelCreate.js": {
+    "mtime": 1780421292.0445602,
+    "ast_hash": "726c7a817c2479a86009cdaf8286ea08",
+    "semantic_hash": "726c7a817c2479a86009cdaf8286ea08"
+  },
+  "src/events/Channel/ChannelDelete.js": {
+    "mtime": 1780421291.2367961,
+    "ast_hash": "9978e8b8d2babe22c968a8888013e333",
+    "semantic_hash": "9978e8b8d2babe22c968a8888013e333"
+  },
+  "src/events/Channel/ChannelUpdate.js": {
+    "mtime": 1780421291.076744,
+    "ast_hash": "2ae3fe261772b2741d0ad1c3c3c3ad84",
+    "semantic_hash": "2ae3fe261772b2741d0ad1c3c3c3ad84"
+  },
+  "src/events/Client/InteractionCreate.js": {
+    "mtime": 1780418981.9535792,
+    "ast_hash": "af9b1c83eb06cdba5d8e6c0222f5d493",
+    "semantic_hash": "af9b1c83eb06cdba5d8e6c0222f5d493"
+  },
+  "src/events/Client/MessageCreate.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "ffa67a5da1b21028f2588f220f6af66a",
+    "semantic_hash": "ffa67a5da1b21028f2588f220f6af66a"
+  },
+  "src/events/Client/ready.js": {
+    "mtime": 1780416992.412256,
+    "ast_hash": "14333fa78c16204703fb2dbe420eed59",
+    "semantic_hash": "14333fa78c16204703fb2dbe420eed59"
+  },
+  "src/events/Guild/GuildCreate.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "8e0b14a6094cb389417c7f2ec3c4ead1",
+    "semantic_hash": "8e0b14a6094cb389417c7f2ec3c4ead1"
+  },
+  "src/events/Guild/GuildDelete.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "08c7d19976a8e6ed3328bb5c59e71956",
+    "semantic_hash": "08c7d19976a8e6ed3328bb5c59e71956"
+  },
+  "src/events/Guild/GuildUpdate.js": {
+    "mtime": 1780421290.1450162,
+    "ast_hash": "a987b9b903a1142b9e6d6eb1dd24f6b1",
+    "semantic_hash": "a987b9b903a1142b9e6d6eb1dd24f6b1"
+  },
+  "src/events/Member/GuildMemberAdd.js": {
+    "mtime": 1780421292.5409782,
+    "ast_hash": "81da5c99cb88c525a2b62c3fc4ae512d",
+    "semantic_hash": "81da5c99cb88c525a2b62c3fc4ae512d"
+  },
+  "src/events/Member/GuildMemberRemove.js": {
+    "mtime": 1780421292.6960647,
+    "ast_hash": "00eea3560632a05dea4bacb29fae3280",
+    "semantic_hash": "00eea3560632a05dea4bacb29fae3280"
+  },
+  "src/events/Member/GuildMemberUpdate.js": {
+    "mtime": 1780421292.8461452,
+    "ast_hash": "478b790d20b29fbc4ba749214a9b278c",
+    "semantic_hash": "478b790d20b29fbc4ba749214a9b278c"
+  },
+  "src/events/Message/MessageDelete.js": {
+    "mtime": 1780421619.3304474,
+    "ast_hash": "3a77a0836167ca4dc986fdeb292779c5",
+    "semantic_hash": "3a77a0836167ca4dc986fdeb292779c5"
+  },
+  "src/events/Message/MessageUpdate.js": {
+    "mtime": 1780421290.3218567,
+    "ast_hash": "1a7249108acf6935ff3a93b05d030f42",
+    "semantic_hash": "1a7249108acf6935ff3a93b05d030f42"
+  },
+  "src/events/Moderation/GuildBanAdd.js": {
+    "mtime": 1780421290.91696,
+    "ast_hash": "7084a2f1424a6b50334b6f538598efff",
+    "semantic_hash": "7084a2f1424a6b50334b6f538598efff"
+  },
+  "src/events/Moderation/GuildBanRemove.js": {
+    "mtime": 1780421290.6520746,
+    "ast_hash": "b0217553c9c15b4654ac2303614e9902",
+    "semantic_hash": "b0217553c9c15b4654ac2303614e9902"
+  },
+  "src/events/Role/RoleCreate.js": {
+    "mtime": 1780421291.652389,
+    "ast_hash": "83267f8faefab2a535a3ac3afb755488",
+    "semantic_hash": "83267f8faefab2a535a3ac3afb755488"
+  },
+  "src/events/Role/RoleDelete.js": {
+    "mtime": 1780421290.7799647,
+    "ast_hash": "5cdf8c3b75e32d9adb95a39e171ea5cb",
+    "semantic_hash": "5cdf8c3b75e32d9adb95a39e171ea5cb"
+  },
+  "src/events/Role/RoleUpdate.js": {
+    "mtime": 1780421290.4816186,
+    "ast_hash": "aacbc2e215fb639b1b63fe8b23a6dbb3",
+    "semantic_hash": "aacbc2e215fb639b1b63fe8b23a6dbb3"
+  },
+  "src/events/Voice/VoiceStateUpdate.js": {
+    "mtime": 1780421289.9889562,
+    "ast_hash": "622e613fbda9ca4042a3337ba570f29a",
+    "semantic_hash": "622e613fbda9ca4042a3337ba570f29a"
+  },
+  "src/index.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "66ec4f78b2c96725944d9cf2e1a3f65e",
+    "semantic_hash": "66ec4f78b2c96725944d9cf2e1a3f65e"
+  },
+  "src/schemas/247.js": {
+    "mtime": 1771162073.5941215,
+    "ast_hash": "666756d9d1cad3a575ddd4f18128b280",
+    "semantic_hash": "666756d9d1cad3a575ddd4f18128b280"
+  },
+  "src/schemas/Guild.js": {
+    "mtime": 1771169516.3806396,
+    "ast_hash": "9880f2473bbc879fa491749fda7ba7d2",
+    "semantic_hash": "9880f2473bbc879fa491749fda7ba7d2"
+  },
+  "src/schemas/Warning.js": {
+    "mtime": 1771169516.3806396,
+    "ast_hash": "113a15e50e17fca92ca6ba34bde830bb",
+    "semantic_hash": "113a15e50e17fca92ca6ba34bde830bb"
+  },
+  "src/schemas/prefix.js": {
+    "mtime": 1771162073.595119,
+    "ast_hash": "6b5d7307aea8dbd6d724d22530c329bb",
+    "semantic_hash": "6b5d7307aea8dbd6d724d22530c329bb"
+  },
+  "src/schemas/status.js": {
+    "mtime": 1780417704.2435727,
+    "ast_hash": "5c2f8b883f8bbe3ba5604c2edb8602ff",
+    "semantic_hash": "5c2f8b883f8bbe3ba5604c2edb8602ff"
+  },
+  "src/structures/Client.js": {
+    "mtime": 1780421679.345341,
+    "ast_hash": "7378c18afecfecf54c43ac08d699be15",
+    "semantic_hash": "7378c18afecfecf54c43ac08d699be15"
+  },
+  "src/structures/Command.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "234434a1f21272021584c5b7f5b43574",
+    "semantic_hash": "234434a1f21272021584c5b7f5b43574"
+  },
+  "src/structures/ComponentHandler.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "a108b8f2b1f77204b519326f5520c9c7",
+    "semantic_hash": "a108b8f2b1f77204b519326f5520c9c7"
+  },
+  "src/structures/Context.js": {
+    "mtime": 1780418964.4147117,
+    "ast_hash": "85db1022c5913d50315af16794a72a80",
+    "semantic_hash": "85db1022c5913d50315af16794a72a80"
+  },
+  "src/structures/Event.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "f5a63dc0505f5870db6662885e426d07",
+    "semantic_hash": "f5a63dc0505f5870db6662885e426d07"
+  },
+  "src/structures/Logger.js": {
+    "mtime": 1771162073.5986438,
+    "ast_hash": "92b29921a414fcbfd6a41da04a9518b6",
+    "semantic_hash": "92b29921a414fcbfd6a41da04a9518b6"
+  },
+  "src/types.js": {
+    "mtime": 1771169591.822431,
+    "ast_hash": "4fdcd5817dda362802877459340f6acb",
+    "semantic_hash": "4fdcd5817dda362802877459340f6acb"
+  },
+  "src/utils/emoji.js": {
+    "mtime": 1771169516.392737,
+    "ast_hash": "994e888ed3258ab719c4b19c7d955007",
+    "semantic_hash": "994e888ed3258ab719c4b19c7d955007"
+  },
+  "src/utils/formatters.js": {
+    "mtime": 1771169516.3992636,
+    "ast_hash": "178587c676560df8339af685b32a1515",
+    "semantic_hash": "178587c676560df8339af685b32a1515"
+  },
+  "src/utils/messageBuilder.js": {
+    "mtime": 1771169516.3992636,
+    "ast_hash": "97077575d6ed87aa330f1069f967f195",
+    "semantic_hash": "97077575d6ed87aa330f1069f967f195"
+  },
+  "src/utils/pagination.js": {
+    "mtime": 1771169516.4068036,
+    "ast_hash": "62ae76146ed253caa477e29442a6222d",
+    "semantic_hash": "62ae76146ed253caa477e29442a6222d"
+  },
+  "src/utils/resolveColor.js": {
+    "mtime": 1771169516.3806396,
+    "ast_hash": "bad454baf3109f8623c381a0982424e5",
+    "semantic_hash": "bad454baf3109f8623c381a0982424e5"
+  }
+}
