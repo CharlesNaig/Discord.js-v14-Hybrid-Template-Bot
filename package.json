@@ -26,6 +26,7 @@
   "bugs": "",
   "homepage": "",
   "dependencies": {
+    "@napi-rs/canvas": "^1.0.9",
     "axios": "^1.15.0",
     "chalk": "^5.6.2",
     "discord.js": "14.25.1",
