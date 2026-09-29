@@ -1,6 +1,7 @@
 import Command from "../../structures/Command.js";
-import { ActivityType, ApplicationCommandOptionType } from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
 import Status from "../../schemas/status.js";
+import { reloadStatusRotation } from '../../utils/statusRotation.js';
 
 export default class StatusCommand extends Command {
     constructor(client) {
@@ -491,91 +492,7 @@ export default class StatusCommand extends Command {
         return emojis[type] || '📝';
     }
 
-    getActivityType(typeString) {
-        const activityTypes = {
-            'Playing': ActivityType.Playing,
-            'Streaming': ActivityType.Streaming,
-            'Listening': ActivityType.Listening,
-            'Watching': ActivityType.Watching,
-            'Custom': ActivityType.Custom,
-            'Competing': ActivityType.Competing
-        };
-        return activityTypes[typeString] || ActivityType.Playing;
-    }
-
     async reloadStatusRotation() {
-        try {
-            // Clear any existing interval
-            if (global.statusInterval) {
-                clearInterval(global.statusInterval);
-            }
-
-            // Get enabled statuses from database
-            const statuses = await Status.find({ enabled: true }).sort({ createdAt: 1 });
-
-            let presences = [];
-
-            if (statuses.length === 0) {
-                this.client.logger.warn('No enabled status messages found in database, using default statuses');
-                presences = [
-                    {
-                        status: 'online',
-                        activities: [{
-                            name: `${this.client.config.prefix}help | ${this.client.guilds.cache.size} servers`,
-                            type: ActivityType.Watching
-                        }]
-                    }
-                ];
-            } else {
-                // Convert database statuses to Discord format
-                presences = statuses.map(status => {
-                    const activityType = this.getActivityType(status.type);
-
-                    const presence = {
-                        status: status.status,
-                        activities: [{
-                            name: status.name,
-                            type: activityType
-                        }]
-                    };
-
-                    // Add URL for streaming
-                    if (status.type === 'Streaming' && status.url) {
-                        presence.activities[0].url = status.url;
-                    }
-
-                    return presence;
-                });
-            }
-
-            // Start rotation
-            let index = 0;
-
-            // Set initial status
-            if (presences.length > 0) {
-                this.client.user.setPresence(presences[0]);
-            }
-
-            // Set up interval for rotation (15 seconds)
-            global.statusInterval = setInterval(() => {
-                if (presences.length > 0) {
-                    this.client.user.setPresence(presences[index]);
-                    index = (index + 1) % presences.length;
-                }
-            }, 15000);
-
-            this.client.logger.info(`Status rotation initialized with ${presences.length} statuses`);
-        } catch (error) {
-            this.client.logger.error(`Error initializing status rotation: ${error.message}`);
-
-            // Fallback to a simple default status
-            this.client.user.setPresence({
-                status: 'online',
-                activities: [{
-                    name: `${this.client.config.prefix}help`,
-                    type: ActivityType.Watching
-                }]
-            });
-        }
+        await reloadStatusRotation(this.client);
     }
 }
